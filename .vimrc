@@ -4,6 +4,9 @@
 "Remove double status bar"
 set noshowmode
 
+"Ripgrep shortcut
+nnoremap <C-m> :Rg<Enter>
+
 "Color Scheme of Editor
 let g:gruvbox_contrast_dark = 'hard'
 :set bg=dark
@@ -39,7 +42,15 @@ let g:airline_theme='nord'
 
 Plug 'cocopon/iceberg.vim'
 
+Plug 'simeji/winresizer'
+
+Plug 'majutsushi/tagbar'
+
+Plug 'andreasvc/vim-256noir'
+
 Plug 'nordtheme/vim'
+
+Plug 'Badacadabra/vim-archery'
 
 Plug 'vim-syntastic/syntastic'
 
@@ -53,6 +64,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'vim-scripts/AutoComplPop'
 set complete+=kspell
 set completeopt=menuone,longest
+
+"For resizing splits w/mouse click (?)"
+set mouse=a
 
 
 Plug 'morhetz/gruvbox'
@@ -70,6 +84,8 @@ call plug#end()
 :colorscheme nord
 ":colorscheme distinguished
 ":colorscheme iceberg
+":colorscheme archery
+":colorscheme 256_noir
 "Line Numbers
 :set number
 
@@ -78,6 +94,26 @@ call plug#end()
 
 "Wrap taxt that extends beyond screen
 set wrap
+
+"NerdTREE buffer open"
+autocmd BufWinEnter * NERDTree
+
+"Open new split with right click"
+autocmd FileType nerdtree nmap <buffer> <RightMouse> :call NERDTreeMouseOpenSplit()<CR>
+
+"Function to open file in a new vertical split w/right click"
+function! NERDTreeMouseOpenSplit()
+    " Get the full path of the selected file"
+    let file_path = fnamemodify(expand('%:p'), ':.') 
+
+    NERDTreeClose
+
+    "Open the file in a new vertical split"
+    execute 'vsp ' . fnameescape(file_path)
+endfunction 
+
+"Automatically open tagbar"
+"autocmd VimEnter * TagbarOpen
 
 " Allow crosshair cursor highlighting.
 hi CursorLine   cterm=NONE ctermbg=0
@@ -90,6 +126,12 @@ set shiftwidth=4 "Sets auto-indent size"
 set autoindent "Turns on auto-indenting"
 set copyindent "Copy the previous indentation on autoindenting"
 set smartindent "Remembers previous indent when creating new lines"
+
+"Tagbar configuartion"
+let g:tagbar_autofocus = 0
+let g:tagbar_autoshowtag = 1
+let g:tagbar_width = 30
+let g:tagbar_left = 1
 
 "Autocomplete Brackets
 inoremap { {}<Esc>ha
